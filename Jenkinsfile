@@ -6,7 +6,7 @@ pipeline {
         // Define Docker Hub credentials ID
         //DOCKERHUB_CREDENTIALS_ID = 'f68822ee-5118-4c1e-ad4f-51e45244cea7'
         // Define Docker Hub repository name
-        DOCKERHUB_REPO = 'eliasp532/InClassExercise7_3'
+        DOCKERHUB_REPO = 'eliasp532/inclassexercise7_3'
         // Define Docker image tag
         DOCKER_IMAGE_TAG = 'latest'
     }
@@ -50,7 +50,7 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
                         sh 'docker login -u eliasp532 -p ${dockerhubpwd}'
-                        sh 'docker push eliasp532/InClassExercise7_3'
+                        sh 'docker push eliasp532/inclassexercise7_3'
                     }
                 }
             }
