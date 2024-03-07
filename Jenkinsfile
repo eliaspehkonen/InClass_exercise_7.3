@@ -28,10 +28,13 @@ pipeline {
 
         stage('Test') {
             steps {
+                // Add steps to run tests
                 withMaven(maven: 'MAVEN_HOME') {
                     sh 'mvn test'
                 }
             }
+        }
+        
         stage('Build Docker Image') {
             steps {
                 // Build Docker image
@@ -46,23 +49,21 @@ pipeline {
                 // Push Docker image to Docker Hub
                 script {
                     withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                    sh 'docker login -u eliasp532 -p ${dockerhubpwd}'
-                    sh 'docker push eliasp532/InClassExercise7_3'
+                        sh 'docker login -u eliasp532 -p ${dockerhubpwd}'
+                        sh 'docker push eliasp532/InClassExercise7_3'
                     }
-                    
                 }
             }
         }
+    }
 
-            post {
-                success {
-                    // Publish JUnit test results
-                    junit '**/target/surefire-reports/TEST-*.xml'
+    post {
+        success {
+            // Publish JUnit test results
+            junit '**/target/surefire-reports/TEST-*.xml'
 
-                    // Generate JaCoCo code coverage report
-                    jacoco(execPattern: '**/target/jacoco.exec')
-                }
-            }
+            // Generate JaCoCo code coverage report
+            jacoco(execPattern: '**/target/jacoco.exec')
         }
     }
 }
